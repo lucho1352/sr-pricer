@@ -1,10 +1,19 @@
 ### Design Aspects
 
-This Service implements a strategy pattern to segregate the calculation of the price
+* This Service implements a strategy pattern to segregate the calculation of the price
 by brandId, bare in mind that if you add more strategies you  will need to use
 qualifiers to inject the beans.
 
-This service also uses a H2 repository to store the prices for the given brand and product
+* This service also uses a H2 repository to store the prices for the given brand and product
+
+* Finally, for tracking purposes the services has a Filter in which we are calculating and logging
+the time taken to perform a given action, and in addition we send in the response a header
+that represents the uuid of the transaction. 
+
+### Pending Work
+
+1. Implement logback to create a pattern to log in ay APM
+2. Implement spring security base on your needs
 
 ### H2
 

@@ -16,7 +16,7 @@ public class ControllerErrorAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = PriceNotFoundException.class)
     protected ResponseEntity<GenericError> handlePriceNotFoundException(PriceNotFoundException ex){
-        log.error(ex.getMessage());
+        log.error("Add corresponding price to the PRICES table");
         return new ResponseEntity<>(GenericError.builder().code(1000).errorMessage(ex.getMessage()).build(), HttpStatus.NOT_FOUND);
     }
 

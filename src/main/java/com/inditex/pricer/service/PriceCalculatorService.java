@@ -12,9 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -39,7 +37,6 @@ public class PriceCalculatorService implements PriceCalculator {
             return applyStrategy(price.getBrandId(), prices);
 
         }else{
-            log.error("Add corresponding price to the PRICES table");
             throw new PriceNotFoundException("Price wasn't found for the given criteria");
         }
     }
@@ -48,7 +45,7 @@ public class PriceCalculatorService implements PriceCalculator {
      * This method will route the list of prices to the given strategy base on brand Id
      * @param brandId Id of the brand
      * @param prices List of prices
-     * @return Price selected base on a brands logic calculation
+     * @return Price selected base on a brand's logic calculation
      */
     private PriceResponse applyStrategy(Integer brandId, List<Price> prices){
 
