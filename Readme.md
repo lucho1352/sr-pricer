@@ -1,3 +1,11 @@
+### Design Aspects
+
+This Service implements a strategy pattern to segregate the calculation of the price
+by brandId, bare in mind that if you add more strategies you  will need to use
+qualifiers to inject the beans.
+
+This service also uses a H2 repository to store the prices for the given brand and product
+
 ### H2
 
 H2 database can be found under next url

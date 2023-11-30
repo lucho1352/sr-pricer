@@ -1,11 +1,12 @@
-package com.inditex.pricer.service.impl;
+package com.inditex.pricer.service;
 
-import com.inditex.pricer.common.error.handling.exceptions.PriceNotFound;
+import com.inditex.pricer.common.calculation.service.PricingStrategy;
+import com.inditex.pricer.common.error.handling.exceptions.PriceNotFoundException;
+import com.inditex.pricer.common.error.handling.exceptions.StrategyNotImplementedException;
 import com.inditex.pricer.dto.PriceRequest;
 import com.inditex.pricer.dto.PriceResponse;
 import com.inditex.pricer.entity.Price;
 import com.inditex.pricer.repository.PriceRepository;
-import com.inditex.pricer.service.PriceCalculator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -21,6 +22,7 @@ import java.util.Optional;
 public class PriceCalculatorService implements PriceCalculator {
 
     private final PriceRepository priceRepository;
+    private final PricingStrategy PricingZaraStrategy;
 
     @Override
     public PriceResponse calculatePrice(PriceRequest price) {
@@ -34,33 +36,29 @@ public class PriceCalculatorService implements PriceCalculator {
 
         if (CollectionUtils.isNotEmpty(prices)){
             log.info("There is(are) {} price(s) that it could be applied", prices.size());
-
-            return determinePrice(prices);
+            return applyStrategy(price.getBrandId(), prices);
 
         }else{
             log.error("Add corresponding price to the PRICES table");
-            throw new PriceNotFound("Price wasn't found for the given criteria");
+            throw new PriceNotFoundException("Price wasn't found for the given criteria");
         }
     }
 
-    private PriceResponse determinePrice(List<Price> prices){
-
-        if (CollectionUtils.isEmpty(prices))
-            throw new IllegalArgumentException("List of prices cant be empty or null to determine the price");
+    /**
+     * This method will route the list of prices to the given strategy base on brand Id
+     * @param brandId Id of the brand
+     * @param prices List of prices
+     * @return Price selected base on a brands logic calculation
+     */
+    private PriceResponse applyStrategy(Integer brandId, List<Price> prices){
 
         Price priceApplied;
-        if (prices.size() == 1) {
-            //There is only one price available
-            priceApplied = prices.get(0);
-        }else{
-            //There is more than one price available
-            Optional<Price> priceOpt = prices.stream()
-                    .max(Comparator.comparingInt(Price::getPriority));
-
-            if(priceOpt.isPresent())
-                priceApplied = priceOpt.get();
-            else
-                throw new PriceNotFound("Price wasn't found For the given criteria");
+        switch(brandId){
+            case 1:
+                priceApplied = PricingZaraStrategy.calculatePrice(prices);
+                break;
+            default:
+                throw new StrategyNotImplementedException("Strategy for brandId=(" +brandId+ ") hasn't been implemented yet");
         }
 
         return PriceResponse.builder()
