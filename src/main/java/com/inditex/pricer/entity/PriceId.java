@@ -17,10 +17,10 @@ public class PriceId implements Serializable {
     private Brand brand;
 
     @Column(name = "PRODUCT_ID")
-    private Long productId;
+    private Integer productId;
 
     @Column(name = "PRICE_LIST")
-    private Long priceList;
+    private Integer priceList;
 
     //TODO: Here we also should have country, since the price
     //      will be different depending on the country
