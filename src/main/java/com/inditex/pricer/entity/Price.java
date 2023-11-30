@@ -30,8 +30,8 @@ public class Price implements Serializable {
     @Column(name = "PRICE", precision = 8, scale = 2)
     private BigDecimal price;
 
-    @OneToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "CURR", referencedColumnName = "ID")
+    @ManyToOne
+    @JoinColumn(name = "CURRENCY_ID", referencedColumnName = "ID")
     private Currency currency;
 
 }

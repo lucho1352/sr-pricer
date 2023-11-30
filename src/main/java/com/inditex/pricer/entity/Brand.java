@@ -21,6 +21,6 @@ public class Brand implements Serializable {
     @Column(name = "ID")
     private Integer id;
 
-    @Column(name = "BRAND_NAME")
+    @Column(name = "NAME")
     private String name;
 }

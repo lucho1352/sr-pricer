@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class PriceId implements Serializable {
 
-    @OneToOne(cascade = CascadeType.DETACH)
+    @ManyToOne
     @JoinColumn(name = "BRAND_ID", referencedColumnName = "ID")
     private Brand brand;
 

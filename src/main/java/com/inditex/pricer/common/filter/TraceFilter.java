@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -14,6 +15,7 @@ import java.util.UUID;
  * Also adds a transactionId for traceability purposes
  */
 @Slf4j
+@Component
 public class TraceFilter implements Filter {
 
     public static final String TRANSACTION_ID = "transactionId";
@@ -27,13 +29,12 @@ public class TraceFilter implements Filter {
         MDC.put(TRANSACTION_ID,transactionId);
 
         HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse res = (HttpServletResponse) request;
+        HttpServletResponse res = (HttpServletResponse) response;
         res.addHeader(TRANSACTION_ID, transactionId);
-        log.info("Interaction Started - Audit - {} - {}", req.getMethod(), req.getRequestURI());
 
         //Executing method requested
         chain.doFilter(request, response);
         long endTime = System.currentTimeMillis();
-        log.info("Interaction Finished - Audit - Time taken {}ms", (endTime - startTime));
+        log.info("Audit {} {} - Time taken {}ms", req.getMethod(), req.getRequestURI(), (endTime - startTime));
     }
 }
