@@ -14,30 +14,27 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @Validated
 @RestController
 @Tag(name = "Prices")
-@RequestMapping("/v1/price")
+@RequestMapping("/v1/prices")
 @AllArgsConstructor
 public class PriceController {
 
     private final PriceCalculator priceCalculator;
 
     @GetMapping
-    @Operation(summary = "Gets price by brand id, product id and a date time")
+    @Operation(summary = "Gets price by brand id, product id and a date time with priority")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Price found",
                     content = { @Content(mediaType = "application/json",
                     schema = @Schema(implementation = PriceResponse.class))}),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = @Content),
             @ApiResponse(responseCode = "404", description = "Price not found", content = @Content) })
-    public PriceResponse determinePrice(@RequestBody @Valid PriceRequest priceRequest){
+    public PriceResponse determinePrice(@Valid PriceRequest priceRequest){
 
         return priceCalculator.calculatePrice(priceRequest);
     }

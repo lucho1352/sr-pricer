@@ -1,6 +1,7 @@
 package com.inditex.pricer.dto;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Builder;
 import lombok.Data;
@@ -15,11 +16,11 @@ import java.time.LocalDateTime;
 public class PriceRequest {
 
     @NotNull(message = "productId can't be null")
-    @PositiveOrZero(message = "productId must be greater or equal than 0")
+    @Positive(message = "productId must be greater than 0")
     private Integer productId;
 
     @NotNull(message = "brandId can't be null")
-    @PositiveOrZero(message = "brandId must be greater or equal than 0")
+    @Positive(message = "brandId must be greater than 0")
     private Integer brandId;
 
     @NotNull(message = "date can't be null")
