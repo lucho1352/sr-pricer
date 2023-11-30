@@ -1,6 +1,7 @@
 package com.inditex.pricer.controller;
 
 
+import com.inditex.pricer.common.error.handling.dto.GenericError;
 import com.inditex.pricer.dto.PriceRequest;
 import com.inditex.pricer.dto.PriceResponse;
 import com.inditex.pricer.service.PriceCalculator;
@@ -32,8 +33,9 @@ public class PriceController {
             @ApiResponse(responseCode = "200", description = "Price found",
                     content = { @Content(mediaType = "application/json",
                     schema = @Schema(implementation = PriceResponse.class))}),
-            @ApiResponse(responseCode = "400", description = "Invalid request", content = @Content),
-            @ApiResponse(responseCode = "404", description = "Price not found", content = @Content) })
+            @ApiResponse(responseCode = "400", description = "Invalid request", content = @Content(schema = @Schema(implementation = GenericError.class))),
+            @ApiResponse(responseCode = "404", description = "Price not found", content = @Content(schema = @Schema(implementation = GenericError.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server Error", content = @Content(schema = @Schema(implementation = GenericError.class)))})
     public PriceResponse determinePrice(@Valid PriceRequest priceRequest){
 
         return priceCalculator.calculatePrice(priceRequest);

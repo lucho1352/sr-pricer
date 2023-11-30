@@ -1,5 +1,6 @@
 package com.inditex.pricer.service.impl;
 
+import com.inditex.pricer.common.error.handling.exceptions.PriceNotFound;
 import com.inditex.pricer.dto.PriceRequest;
 import com.inditex.pricer.dto.PriceResponse;
 import com.inditex.pricer.entity.Price;
@@ -38,7 +39,7 @@ public class PriceCalculatorService implements PriceCalculator {
 
         }else{
             log.error("Add corresponding price to the PRICES table");
-            throw new IllegalArgumentException("Id not found in the request");
+            throw new PriceNotFound("Price wasn't found for the given criteria");
         }
     }
 
@@ -59,12 +60,13 @@ public class PriceCalculatorService implements PriceCalculator {
             if(priceOpt.isPresent())
                 priceApplied = priceOpt.get();
             else
-                throw new IllegalArgumentException("Wasn't able to determine the price");
+                throw new PriceNotFound("Price wasn't found For the given criteria");
         }
 
         return PriceResponse.builder()
                 .brandId(priceApplied.getPriceId().getBrand().getId())
                 .productId(priceApplied.getPriceId().getProductId())
+                .priceList(priceApplied.getPriceId().getPriceList())
                 .finalPrice(priceApplied.getPrice())
                 .startDateTime(priceApplied.getStartDate())
                 .endDateTime(priceApplied.getEndDate())

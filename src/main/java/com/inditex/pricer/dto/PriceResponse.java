@@ -12,7 +12,7 @@ public class PriceResponse {
 
     private Integer productId;
     private Integer brandId;
-    private BigDecimal price;
+    private Integer priceList;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
     private BigDecimal finalPrice;
