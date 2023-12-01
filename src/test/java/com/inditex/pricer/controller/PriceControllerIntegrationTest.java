@@ -167,7 +167,7 @@ public class PriceControllerIntegrationTest {
     }
 
     @Test
-    void test6() throws Exception {
+    void test6_NotFound() throws Exception {
         //give
         Integer brandId = 1;
         Integer productId = 35456;
@@ -187,6 +187,28 @@ public class PriceControllerIntegrationTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.code").value(1000))
                 .andExpect(jsonPath("$.errorMessage").value("Price wasn't found for the given criteria"));
+    }
+
+    @Test
+    void test7_BadRequest() throws Exception {
+        //give
+        Integer brandId = 1;
+        Integer productId = 35456;
+        LocalDateTime date = LocalDateTime.of(2020,6,16,21,0,0);
+        log.info("Test 6: Requesting price for product id {}, brand id {} (Zara) on {}",productId, brandId, DATE_FORMAT.format(date));
+        log.info("        brandId->{}",productId);
+        log.info("        productId->{}",brandId);
+        log.info("        date->{}",DATE_FORMAT.format(date));
+
+        //when
+        ResultActions resultActions = mockMvc.perform(get(GET_V1_PRICE)
+                        .param(BRAND_ID,brandId.toString())
+                        .param(PRODUCT_ID,productId.toString())
+                        .param(DATE,DATE_FORMAT.format(date) + "ERROR"))
+                //then
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.code").value(1002));
     }
 
 }
