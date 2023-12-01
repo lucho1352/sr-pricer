@@ -23,19 +23,17 @@ public class PricingZaraStrategy implements PricingStrategy{
         Price priceApplied;
         if (prices.size() == 1) {
             //There is only one price available
-            priceApplied = prices.get(0);
+            return prices.get(0);
         }else{
             //There is more than one price available
             Optional<Price> priceOpt = prices.stream()
                     .max(Comparator.comparingInt(Price::getPriority));
 
             if(priceOpt.isPresent())
-                priceApplied = priceOpt.get();
+                return priceOpt.get();
             else
                 throw new PriceNotFoundException("Price wasn't found For the given criteria");
         }
-
-        return priceApplied;
     }
 
 }

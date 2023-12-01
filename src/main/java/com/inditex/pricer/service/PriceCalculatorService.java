@@ -20,7 +20,7 @@ import java.util.List;
 public class PriceCalculatorService implements PriceCalculator {
 
     private final PriceRepository priceRepository;
-    private final PricingStrategy PricingZaraStrategy;
+    private final PricingStrategy pricingZaraStrategy;
 
     @Override
     public PriceResponse calculatePrice(PriceRequest price) {
@@ -52,7 +52,7 @@ public class PriceCalculatorService implements PriceCalculator {
         Price priceApplied;
         switch(brandId){
             case 1:
-                priceApplied = PricingZaraStrategy.calculatePrice(prices);
+                priceApplied = pricingZaraStrategy.calculatePrice(prices);
                 break;
             default:
                 throw new StrategyNotImplementedException("Strategy for brandId=(" +brandId+ ") hasn't been implemented yet");

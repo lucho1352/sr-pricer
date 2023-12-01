@@ -41,3 +41,11 @@ Up next, you will find a curl command that will help you to interact with /v1/pr
 curl --location 'http://localhost:8080/v1/prices?productId=35455&brandId=1&date=2023-11-30T11%3A02%3A31' \
 --header 'accept: application/json'
 ```
+
+### Test
+
+The service has integration with jacoco to run a report with unit test, and for that you just need to execute next maven command
+
+```
+mvn clean install
+```
