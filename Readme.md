@@ -49,3 +49,10 @@ The service has integration with jacoco to run a report with unit test, and for 
 ```
 mvn clean install
 ```
+
+In addition service is also integrated with pit test to check how strong those are, to run the mutation tests
+you will need to execute next command.
+
+```
+mvn clean install org.pitest:pitest-maven:mutationCoverage
+```

@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -92,6 +93,7 @@ class PriceControllerTest {
 
         //then
         mvcResult.andExpect(status().isOk());
+        mvcResult.andExpect(jsonPath("$").isNotEmpty());
         verify(priceCalculator,times(1)).calculatePrice(any());
     }
 
