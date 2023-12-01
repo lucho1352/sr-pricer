@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 @Builder
 public class PriceResponse {
 
-    private Integer productId;
     private Integer brandId;
+    private Integer productId;
     private Integer priceList;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;

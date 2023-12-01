@@ -8,7 +8,13 @@ qualifiers to inject the beans.
 
 * Finally, for tracking purposes the services has a Filter in which we are calculating and logging
 the time taken to perform a given action, and in addition we send in the response a header
-that represents the uuid of the transaction. 
+that represents the uuid of the transaction.
+
+* This service have next test
+  * Unit test
+  * Mutation Test
+  * Integration Test
+  * End-2-End test
 
 ### Pending Work
 
